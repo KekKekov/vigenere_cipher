@@ -1,0 +1,35 @@
+alph = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+def decode_message(message, keyword):
+    def transform(word):
+        lst = []
+        for letter in word:
+            if not letter in alph:
+                lst.append(letter)
+            else:
+                lst.append(alph.index(letter))
+        return lst
+    message_nums = transform(message)
+    keyword_nums = transform(keyword)
+    keyword_nums_ext = []
+    count = 0
+    for item in message_nums:
+        if type(item) != int:
+            keyword_nums_ext.append(item)
+        else:
+            keyword_nums_ext.append(keyword_nums[count % len(keyword_nums)])
+            count += 1
+    decoded_message = ""
+    for i in range(len(message_nums)):
+        if type(message_nums[i]) != int:
+            decoded_message += message_nums[i]
+        else:
+            new_index = message_nums[i] - keyword_nums_ext[i]
+            decoded_message += alph[new_index]
+    return decoded_message
+message1 = "dfc aruw fsti gr vjtwhr wznj? vmph otis! cbx swv jipreneo uhllj kpi rahjib eg fjdkwkedhmp!"
+keyword1 = "friends"
+print(decode_message(message1, keyword1))
+
+
+
+

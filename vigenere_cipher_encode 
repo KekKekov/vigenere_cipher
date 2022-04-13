@@ -1,0 +1,34 @@
+alph = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+def encode_vignere(message, keyword):
+    def transform(word):
+        message_nums = []
+        for letter in word:
+            if not letter in alph:
+                message_nums.append(letter)
+            else:
+                message_nums.append(alph.index(letter))
+        return message_nums
+    message_list = transform(message)
+    keyword_list = transform(keyword)
+    keyword_list_extended = []
+    count = 0
+    for num in message_list:
+        if type(num) != int:
+            keyword_list_extended.append(num)
+        else:
+            keyword_list_extended.append(keyword_list[count % len(keyword_list)])
+            count += 1
+    result = ""
+    for i in range(len(message_list)):
+        if type(message_list[i]) != int:
+            result += message_list[i]
+        else:
+            both_indeces = message_list[i] + keyword_list_extended[i]
+            if both_indeces > len(message_list) - 1:
+                result += alph[both_indeces % len(alph)]
+            else:
+                result += alph[both_indeces]
+    return result
+message1 = "barry is the spy"
+keyword1 = "dog"
+print(encode_vignere(message1, keyword1))
